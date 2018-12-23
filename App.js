@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
+import AddQuestion from './components/AddQuestion'
 import DeckDetail from './components/DeckDetail'
 import middleware from './middleware'
 import {
@@ -77,6 +78,15 @@ const StackNavigator = createStackNavigator({
   },
   DeckDetail: {
     screen: DeckDetail,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    })
+  },
+  AddQuestion: {
+    screen: AddQuestion,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: white,
       headerStyle: {

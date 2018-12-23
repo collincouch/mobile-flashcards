@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'
-import { formatQuestion } from './helpers'
+import { formatQuestion, formatDeck } from './helpers'
 export const FLASHCARD_DECKS_STORAGE_KEY = 'MobileFlashcards:decks'
 export const FLASHCARD_QUESTIONS_STORAGE_KEY = 'MobileFlashcards:questions'
 
@@ -8,7 +8,7 @@ export const decks = {
     id: '6ni6ok3ym7mf1p33lnez',
     name: 'Addition Facts',
     timestamp: Date.now(),
-    questions: ['8xf0y6ziyjabvozdd253nd', 'am8ehyc8byjqgar0jgpub9'],
+    questions: ['8xf0y6ziyjabvozdd253nd'],
     quizResults: {
       correct: [],
       incorrect: []
@@ -27,7 +27,7 @@ export const questions = {
 }
 
 function setDummyDeckData() {
-  console.log('setDummyDeckData')
+  //console.log('setDummyDeckData')
 
   let dummyDecksData = decks
 
@@ -43,7 +43,7 @@ function setDummyDeckData() {
 }
 
 function setDummyQuestionData() {
-  console.log('setDummyQuestionData')
+  //console.log('setDummyQuestionData')
 
   let dummyQuestionsData = questions
 
@@ -67,6 +67,7 @@ export function formatQuestionResults(results) {
 }
 
 export function _getDecks() {
+  //AsyncStorage.clear()
   return retrievedItem(FLASHCARD_DECKS_STORAGE_KEY)
     .then(formatDeckResults)
     .then(decks => {
@@ -89,6 +90,50 @@ export function _getQuestions() {
       console.log('Promise is rejected with error: ' + error)
     })
 }
+
+export function _saveDeck(deckText) {
+  //console.log('_Data:_saveDeck ' + deckText)
+  const formattedDeck = formatDeck(deckText)
+  //console.log(formattedDeck)
+  return storeItem(FLASHCARD_DECKS_STORAGE_KEY, {
+    [formattedDeck.id]: formattedDeck
+  }).then(() => {
+    return formattedDeck
+  })
+}
+
+export function _saveQuestion(question) {
+  //console.log('_Data:_saveQuestion ' + question)
+  const formattedQuestion = formatQuestion(question)
+
+  //console.log(formattedQuestion)
+  return mergeItem(FLASHCARD_QUESTIONS_STORAGE_KEY, {
+    [formattedQuestion.id]: formattedQuestion
+  })
+    .then(() => {
+      _getDecks().then(decks => {
+        //add quesitonId to decks.question array
+        decks = {
+          ...decks,
+          [formattedQuestion.deck]: {
+            ...decks[formattedQuestion.deck],
+            questions: decks[formattedQuestion.deck].questions.concat([
+              formattedQuestion.id
+            ])
+          }
+        }
+
+        storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
+        //console.log(formattedQuestion)
+        //console.log('updateding decks')
+        //console.log(decks)
+      })
+    })
+    .then(() => {
+      return formattedQuestion
+    })
+}
+
 async function retrievedItem(key) {
   try {
     const retrievedItem = await AsyncStorage.getItem(key)
@@ -98,6 +143,34 @@ async function retrievedItem(key) {
     console.log(error.message)
   }
   return
+}
+
+async function mergeItem(key, item) {
+  try {
+    //console.log(JSON.stringify(item))
+    //we want to wait for the Promise returned by AsyncStorage.setItem()
+    //to be resolved to the actual value before returning the value
+    await AsyncStorage.mergeItem(key, JSON.stringify(item))
+
+    return item
+  } catch (error) {
+    console.log(error.message)
+    return null
+  }
+}
+
+async function storeItem(key, item) {
+  try {
+    //console.log(JSON.stringify(item))
+    //we want to wait for the Promise returned by AsyncStorage.setItem()
+    //to be resolved to the actual value before returning the value
+    await AsyncStorage.setItem(key, JSON.stringify(item))
+
+    return item
+  } catch (error) {
+    console.log(error.message)
+    return null
+  }
 }
 
 // export function _saveQuestion(question) {

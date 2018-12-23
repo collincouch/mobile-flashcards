@@ -1,4 +1,4 @@
-import { _getDecks, _getQuestions } from './_DATA'
+import { _getDecks, _getQuestions, _saveDeck, _saveQuestion } from './_DATA'
 
 export function getInitialData() {
 	//console.log('getInitialData')
@@ -8,4 +8,14 @@ export function getInitialData() {
 			questions
 		})
 	)
+}
+
+export function saveDeck(info) {
+	//console.log('api:saveDeck ' + info)
+	return _saveDeck(info)
+}
+
+export function saveQuestion(info) {
+	//console.log('api:saveQuestion ' + info)
+	return _saveQuestion(info)
 }

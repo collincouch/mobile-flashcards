@@ -1,23 +1,61 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import TextButton from './TextButton'
+import SubmitButton from './SubmitButton'
+import { purple, white } from '../utils/colors'
 
-const DeckDetail = props => {
-  const { deck } = props
+class DeckDetail extends Component {
+  navigatetoAddCard = e => {
+    const { deck } = this.props
+    //console.log('asdfasdf ' + deck.id)
+    this.props.navigation.navigate('AddQuestion', { deckId: deck.id })
+  }
 
-  //const id = this.props.id
-  const { id, name, questions, quizResults } = deck
+  render() {
+    const { deck } = this.props
 
-  return (
-    <View>
-      <Text style={{ fontSize: 20 }}>{name}</Text>
-      <Text style={{ fontSize: 16 }}>{questions.length} Cards</Text>
-      <TextButton style={{ margin: 20 }}>START QUIZ</TextButton>
-      <TextButton style={{ margin: 20 }}>ADD CARD</TextButton>
-    </View>
-  )
+    //const id = this.props.id
+    const { id, name, questions, quizResults } = deck
+
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontSize: 20 }}>{name}</Text>
+        <Text style={{ fontSize: 16 }}>{questions.length} Cards</Text>
+
+        <SubmitButton style={{ margin: 1 }}>START QUIZ</SubmitButton>
+        <SubmitButton style={{ margin: 1 }} onPress={this.navigatetoAddCard}>
+          ADD CARD
+        </SubmitButton>
+        <SubmitButton style={{ margin: 1 }}>DELETE DECK</SubmitButton>
+      </View>
+    )
+  }
 }
+// onPress={() =>
+//   this.props.navigation.navigate('AddQuestion', {
+//     id: deck.id
+//   })
+// }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: white
+  },
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center'
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    marginRight: 30
+  }
+})
 
 function mapDispatchToProps(dispatch, { navigation }) {
   const { id } = navigation.state.params

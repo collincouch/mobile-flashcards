@@ -10,52 +10,56 @@ import {
 import { connect } from 'react-redux'
 import TextButton from './TextButton'
 import { purple, white } from '../utils/colors'
+import { handleAddDeck } from '../actions/decks'
+import { NavigationActions } from 'react-navigation'
+import SubmitButton from './SubmitButton'
 
-function SubmitBtn({ onPress }) {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={
-        Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn
-      }
-    >
-      <Text style={styles.submitBtnText}>SUBMIT</Text>
-    </TouchableOpacity>
-  )
-}
+// function SubmitBtn({ onPress }) {
+//   return (
+//     <TouchableOpacity
+//       onPress={onPress}
+//       style={
+//         Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn
+//       }
+//     >
+//       <Text style={styles.submitBtnText}>SUBMIT</Text>
+//     </TouchableOpacity>
+//   )
+// }
 
 class AddDeck extends Component {
   state = {
     deckName: ''
   }
-  submit = () => {
-    const key = timeToString()
-    const entry = this.state
+  submit = e => {
+    e.preventDefault()
+    const { deckName } = this.state
+    const { dispatch } = this.props
 
-    // Update Redux
-    this.props.dispatch(
-      addEntry({
-        [key]: entry
-      })
-    )
+    //console.log(deckName)
 
-    this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }))
+    //dispatch to handleDeck,
+    //which will update local storage and
+    //Redux
+    dispatch(handleAddDeck(deckName))
+
+    //this.setState(() => ({ deckName: '' }))
+    this.setState({ deckName: '' })
 
     // Navigate to home
     this.toHome()
-
-    // Save to "DB"
-    submitEntry({ key, entry })
-
-    // Clear local notification
-    clearLocalNotification().then(setLocalNotification)
   }
 
-  handleDeckName = text => {
+  handleChangeDeckName = text => {
     this.setState({ deckName: text })
   }
 
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({ key: 'AddDeck' }))
+  }
+
   render() {
+    const { deckName } = this.state
     return (
       <View>
         <TextInput
@@ -64,9 +68,10 @@ class AddDeck extends Component {
           placeholder="Deck Name"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleDeckName}
+          onChangeText={this.handleChangeDeckName}
+          value={deckName}
         />
-        <SubmitBtn onPress={this.submit} />
+        <SubmitButton onPress={this.submit}>Submit</SubmitButton>
       </View>
     )
   }
@@ -83,30 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  iosSubmitBtn: {
-    backgroundColor: purple,
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40
-  },
-  AndroidSubmitBtn: {
-    backgroundColor: purple,
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    height: 45,
-    borderRadius: 2,
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  submitBtnText: {
-    color: white,
-    fontSize: 22,
-    textAlign: 'center'
-  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -115,4 +96,8 @@ const styles = StyleSheet.create({
     marginRight: 30
   }
 })
-export default AddDeck
+function mapStateToProps(state) {
+  return {}
+}
+
+export default connect(mapStateToProps)(AddDeck)

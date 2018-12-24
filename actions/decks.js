@@ -1,6 +1,7 @@
-import { saveDeck } from '../utils/api'
+import { saveDeck, saveMarkAnswer } from '../utils/api'
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const ADD_DECK = 'ADD_DECK'
+export const MARK_ANSWER = 'MARK_ANSWER'
 
 export function receiveDecks(decks) {
 	return {
@@ -18,6 +19,15 @@ function addDeck(deck) {
 	}
 }
 
+function markAnswer({ deckId, qid, isCorrect }) {
+	return {
+		type: MARK_ANSWER,
+		deckId,
+		qid,
+		isCorrect
+	}
+}
+
 export function handleAddDeck(deckName) {
 	//console.log('handleAddDeck' + deckName)
 	return dispatch => {
@@ -29,6 +39,21 @@ export function handleAddDeck(deckName) {
 				//console.log('begin dispatch')
 				//console.log(deck)
 				dispatch(addDeck(deck))
+			})
+	}
+}
+
+export function handleAddAnswer(deckId, qid, isCorrect) {
+	//console.log('handleAddAnswer')
+	return dispatch => {
+		return saveMarkAnswer({ deckId, qid, isCorrect })
+			.catch(e => {
+				console.warn('Error in handleAddAnswer: ', e)
+			})
+			.then(answer => {
+				console.log('begin dispatch')
+				console.log(answer)
+				dispatch(markAnswer(answer))
 			})
 	}
 }

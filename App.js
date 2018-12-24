@@ -7,6 +7,8 @@ import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 import AddQuestion from './components/AddQuestion'
 import DeckDetail from './components/DeckDetail'
+import QuizQuestion from './components/QuizQuestion'
+import QuizScore from './components/QuizScore'
 import middleware from './middleware'
 import {
   createBottomTabNavigator,
@@ -87,6 +89,24 @@ const StackNavigator = createStackNavigator({
   },
   AddQuestion: {
     screen: AddQuestion,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    })
+  },
+  QuizQuestion: {
+    screen: QuizQuestion,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    })
+  },
+  QuizScore: {
+    screen: QuizScore,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: white,
       headerStyle: {

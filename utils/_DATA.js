@@ -92,9 +92,9 @@ export function _getQuestions() {
 }
 
 export function _saveDeck(deckText) {
-  //console.log('_Data:_saveDeck ' + deckText)
+  console.log('_Data:_saveDeck ' + deckText)
   const formattedDeck = formatDeck(deckText)
-  //console.log(formattedDeck)
+  console.log(formattedDeck)
   return storeItem(FLASHCARD_DECKS_STORAGE_KEY, {
     [formattedDeck.id]: formattedDeck
   }).then(() => {
@@ -131,6 +131,48 @@ export function _saveQuestion(question) {
     })
     .then(() => {
       return formattedQuestion
+    })
+}
+
+export function _saveMarkAnswer(answer) {
+  return _getDecks()
+    .then(decks => {
+      // if (answer.isCorrect === true) {
+      //   decks = {
+      //     ...decks,
+      //     [answer.deckId]: {
+      //       ...decks[answer.deckId],
+      //       quizResults: {
+      //         ...decks[answer.deckId].quizResults,
+      //         correct: decks[answer.deckId].quizResults.correct.concat([
+      //           answer.qid
+      //         ]) //
+      //       }
+      //     }
+      //   }
+      // } else {
+      //   decks = {
+      //     ...decks,
+      //     [answer.deckId]: {
+      //       ...decks[answer.deckId],
+      //       quizResults: {
+      //         ...decks[answer.deckId].quizResults,
+      //         incorrect: decks[answer.deckId].quizResults.incorrect.concat([
+      //           answer.qid
+      //         ]) //
+      //       }
+      //     }
+      //   }
+      // }
+      //storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
+    })
+    .then(() => {
+      console.log('returning answer')
+      console.log(answer)
+      return answer
+    })
+    .catch(e => {
+      console.warn('Error in handleAddAnswer: ', e)
     })
 }
 

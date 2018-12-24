@@ -5,10 +5,16 @@ import SubmitButton from './SubmitButton'
 import { purple, white } from '../utils/colors'
 
 class DeckDetail extends Component {
-  navigatetoAddCard = e => {
+  navigateToAddCard = e => {
     const { deck } = this.props
     //console.log('asdfasdf ' + deck.id)
     this.props.navigation.navigate('AddQuestion', { deckId: deck.id })
+  }
+
+  navigateToQuizQuestion = e => {
+    const { deck } = this.props
+    //console.log('asdfasdf ' + deck.id)
+    this.props.navigation.navigate('QuizQuestion', { deckId: deck.id })
   }
 
   render() {
@@ -22,8 +28,13 @@ class DeckDetail extends Component {
         <Text style={{ fontSize: 20 }}>{name}</Text>
         <Text style={{ fontSize: 16 }}>{questions.length} Cards</Text>
 
-        <SubmitButton style={{ margin: 1 }}>START QUIZ</SubmitButton>
-        <SubmitButton style={{ margin: 1 }} onPress={this.navigatetoAddCard}>
+        <SubmitButton
+          style={{ margin: 1 }}
+          onPress={this.navigateToQuizQuestion}
+        >
+          START QUIZ
+        </SubmitButton>
+        <SubmitButton style={{ margin: 1 }} onPress={this.navigateToAddCard}>
           ADD CARD
         </SubmitButton>
         <SubmitButton style={{ margin: 1 }}>DELETE DECK</SubmitButton>

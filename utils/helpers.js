@@ -8,7 +8,7 @@ export function formatQuestion({ deckId, questionText, answerText }) {
   }
 }
 
-export function formatDeck({ deckText }) {
+export function formatDeck(deckText) {
   //console.log('helpers:formatDeck ' + deckText)
   return {
     id: generateUID(),

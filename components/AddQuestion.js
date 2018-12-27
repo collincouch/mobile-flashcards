@@ -56,28 +56,32 @@ class AddQuestion extends Component {
 
     const { id, name, questions, quizResults } = deck
     return (
-      <View>
-        <Text style={{ fontSize: 20 }}>{name}</Text>
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Question"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handleChangeQuestion}
-          value={question}
-        />
+      <View style={styles.container}>
+        <View style={{ alignItems: 'center', marginTop: 150 }}>
+          <Text style={{ fontSize: 25 }}>{name}</Text>
+        </View>
+        <View style={[styles.center, { marginTop: -350 }]}>
+          <TextInput
+            style={styles.input}
+            underlineColorAndroid="transparent"
+            placeholder="Question"
+            placeholderTextColor="#9a73ef"
+            autoCapitalize="none"
+            onChangeText={this.handleChangeQuestion}
+            value={question}
+          />
 
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Answer"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handleChangeAnswer}
-          value={answer}
-        />
-        <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+          <TextInput
+            style={styles.input}
+            underlineColorAndroid="transparent"
+            placeholder="Answer"
+            placeholderTextColor="#9a73ef"
+            autoCapitalize="none"
+            onChangeText={this.handleChangeAnswer}
+            value={answer}
+          />
+          <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+        </View>
       </View>
     )
   }
@@ -89,17 +93,26 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: white
   },
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center'
-  },
+  // row: {
+  //   flexDirection: 'row',
+  //   flex: 1,
+  //   alignItems: 'center'
+  // },
   center: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 30,
     marginRight: 30
+  },
+  input: {
+    margin: 15,
+    height: 40,
+    borderColor: '#7a42f4',
+    borderWidth: 1,
+    //flexDirection: 'row',
+    //flex: 1
+    width: 300
   }
 })
 function mapStateToProps({ decks }, { navigation }) {

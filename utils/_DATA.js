@@ -92,10 +92,10 @@ export function _getQuestions() {
 }
 
 export function _saveDeck(deckText) {
-  console.log('_Data:_saveDeck ' + deckText)
+  //console.log('_Data:_saveDeck ' + deckText)
   const formattedDeck = formatDeck(deckText)
   console.log(formattedDeck)
-  return storeItem(FLASHCARD_DECKS_STORAGE_KEY, {
+  return mergeItem(FLASHCARD_DECKS_STORAGE_KEY, {
     [formattedDeck.id]: formattedDeck
   }).then(() => {
     return formattedDeck
@@ -137,34 +137,34 @@ export function _saveQuestion(question) {
 export function _saveMarkAnswer(answer) {
   return _getDecks()
     .then(decks => {
-      // if (answer.isCorrect === true) {
-      //   decks = {
-      //     ...decks,
-      //     [answer.deckId]: {
-      //       ...decks[answer.deckId],
-      //       quizResults: {
-      //         ...decks[answer.deckId].quizResults,
-      //         correct: decks[answer.deckId].quizResults.correct.concat([
-      //           answer.qid
-      //         ]) //
-      //       }
-      //     }
-      //   }
-      // } else {
-      //   decks = {
-      //     ...decks,
-      //     [answer.deckId]: {
-      //       ...decks[answer.deckId],
-      //       quizResults: {
-      //         ...decks[answer.deckId].quizResults,
-      //         incorrect: decks[answer.deckId].quizResults.incorrect.concat([
-      //           answer.qid
-      //         ]) //
-      //       }
-      //     }
-      //   }
-      // }
-      //storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
+      if (answer.isCorrect === true) {
+        decks = {
+          ...decks,
+          [answer.deckId]: {
+            ...decks[answer.deckId],
+            quizResults: {
+              ...decks[answer.deckId].quizResults,
+              correct: decks[answer.deckId].quizResults.correct.concat([
+                answer.qid
+              ]) //
+            }
+          }
+        }
+      } else {
+        decks = {
+          ...decks,
+          [answer.deckId]: {
+            ...decks[answer.deckId],
+            quizResults: {
+              ...decks[answer.deckId].quizResults,
+              incorrect: decks[answer.deckId].quizResults.incorrect.concat([
+                answer.qid
+              ]) //
+            }
+          }
+        }
+      }
+      storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
     })
     .then(() => {
       console.log('returning answer')
@@ -173,6 +173,33 @@ export function _saveMarkAnswer(answer) {
     })
     .catch(e => {
       console.warn('Error in handleAddAnswer: ', e)
+    })
+}
+
+export function _resetQuiz(deckId) {
+  console.log('sadfasdasd ' + deckId)
+  return _getDecks()
+    .then(decks => {
+      decks = {
+        ...decks,
+        [deckId]: {
+          ...decks[deckId],
+          quizResults: {
+            ...decks[deckId].quizResults,
+            correct: [],
+            //...deckId].quizResults,
+            incorrect: []
+          }
+        }
+      }
+      storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
+    })
+    .then(() => {
+      console.log('_resetQuiz' + deckId)
+      return deckId
+    })
+    .catch(e => {
+      console.warn('Error in _resetQuiz: ', e)
     })
 }
 
@@ -214,57 +241,3 @@ async function storeItem(key, item) {
     return null
   }
 }
-
-// export function _saveQuestion(question) {
-//   return new Promise((res, rej) => {
-//     const deck = question.deck
-//     const formattedQuestion = formatQuestion(question)
-
-//     setTimeout(() => {
-//       questions = {
-//         ...questions,
-//         [formattedQuestion.id]: formattedQuestion
-//       }
-
-//       decks = {
-//         ...decks,
-//         [deck]: {
-//           ...decks[deck],
-//           questions: decks[deck].questions.concat([formattedQuestion.id])
-//         }
-//       }
-
-//       res(formattedQuestion)
-//     }, 1000)
-//   })
-// }
-
-// export function _saveDeck(deckText) {
-//   return new Promise((res, rej) => {
-//     const formattedDeck = formatDeck(deckText)
-
-//     setTimeout(() => {
-//       decks = {
-//         ...decks,
-//         [formattedDeck.id]: formattedDeck
-//       }
-
-//       res(formattedDeck)
-//     }, 1000)
-//   })
-// }
-
-// export function _saveQuestionAnswer({ did, qid, isCorrect }) {
-//   return new Promise((res, rej) => {
-//     setTimeout(() => {
-//       decks = {
-//         ...decks,
-//         [did]: {
-//           ...decks[did],
-//           isCorrect===true?correct: decks[did].correct.concat([qid]):
-//           incorrect: decks[did].incorrect.concat([qid])
-//         }
-//       }
-//       res()
-//     }, 500)
-//   })

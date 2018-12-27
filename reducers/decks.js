@@ -1,4 +1,9 @@
-import { RECEIVE_DECKS, ADD_DECK, MARK_ANSWER } from '../actions/decks'
+import {
+	RECEIVE_DECKS,
+	ADD_DECK,
+	MARK_ANSWER,
+	RESET_QUIZ
+} from '../actions/decks'
 import { ADD_QUESTION } from '../actions/questions'
 export default function decks(state = {}, action) {
 	switch (action.type) {
@@ -50,6 +55,18 @@ export default function decks(state = {}, action) {
 								action.deckId
 							].quizResults.incorrect.concat([action.qid]) //
 						}
+					}
+				}
+			}
+		case RESET_QUIZ:
+			return {
+				...state,
+				[action.deckId]: {
+					...state[action.deckId],
+					quizResults: {
+						...state[action.deckId].quizResults,
+						correct: [],
+						incorrect: []
 					}
 				}
 			}

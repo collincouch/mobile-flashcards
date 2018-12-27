@@ -14,19 +14,6 @@ import { handleAddDeck } from '../actions/decks'
 import { NavigationActions } from 'react-navigation'
 import SubmitButton from './SubmitButton'
 
-// function SubmitBtn({ onPress }) {
-//   return (
-//     <TouchableOpacity
-//       onPress={onPress}
-//       style={
-//         Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn
-//       }
-//     >
-//       <Text style={styles.submitBtnText}>SUBMIT</Text>
-//     </TouchableOpacity>
-//   )
-// }
-
 class AddDeck extends Component {
   state = {
     deckName: ''
@@ -61,41 +48,81 @@ class AddDeck extends Component {
   render() {
     const { deckName } = this.state
     return (
-      <View>
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Deck Name"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handleChangeDeckName}
-          value={deckName}
-        />
-        <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+      <View style={styles.container}>
+        <Text style={styles.headerStyle}>Mobile Flashcards</Text>
+        <View style={[{ flex: 1 }, styles.elementsContainer]}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 25 }}>Add Deck</Text>
+          </View>
+          <View style={{ flex: 2 }}>
+            <TextInput
+              style={styles.input}
+              underlineColorAndroid="transparent"
+              placeholder="Deck Name"
+              placeholderTextColor="#9a73ef"
+              autoCapitalize="none"
+              onChangeText={this.handleChangeDeckName}
+              value={deckName}
+            />
+            <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+          </View>
+        </View>
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//     backgroundColor: white
+//   },
+//   // row: {
+//   //   flexDirection: 'row',
+//   //   flex: 1,
+//   //   alignItems: 'center'
+//   // },
+//   center: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginLeft: 30,
+//     marginRight: 30
+//   },
+//   input: {
+//     margin: 15,
+//     height: 40,
+//     borderColor: '#7a42f4',
+//     borderWidth: 1,
+//     width: 300
+//   }
+// })
+
+const styles = {
   container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: white
+    marginTop: 48,
+    flex: 1
   },
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center'
+  headerStyle: {
+    fontSize: 36,
+    textAlign: 'center',
+    fontWeight: '100',
+    marginBottom: 24
   },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 30,
-    marginRight: 30
+  elementsContainer: {
+    marginLeft: 24,
+    marginRight: 24,
+    marginBottom: 24
+  },
+  input: {
+    margin: 15,
+    height: 40,
+    borderColor: '#7a42f4',
+    borderWidth: 1
   }
-})
+}
+
 function mapStateToProps(state) {
   return {}
 }

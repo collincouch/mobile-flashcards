@@ -25,48 +25,58 @@ class DeckDetail extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 20 }}>{name}</Text>
-        <Text style={{ fontSize: 16 }}>{questions.length} Cards</Text>
-
-        <SubmitButton
-          style={{ margin: 1 }}
-          onPress={this.navigateToQuizQuestion}
-        >
-          START QUIZ
-        </SubmitButton>
-        <SubmitButton style={{ margin: 1 }} onPress={this.navigateToAddCard}>
-          ADD CARD
-        </SubmitButton>
-        <SubmitButton style={{ margin: 1 }}>DELETE DECK</SubmitButton>
+        <Text style={styles.headerStyle}>Mobile Flashcards</Text>
+        <View style={[{ flex: 1 }, styles.elementsContainer]}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 25 }}>{name}</Text>
+            <Text style={{ fontSize: 16 }}>{questions.length} Card(s)</Text>
+          </View>
+          <View style={{ flex: 2 }}>
+            {deck.questions.length > 0 && (
+              <View style={{ margin: 3 }}>
+                <SubmitButton
+                  style={{ margin: 1 }}
+                  onPress={this.navigateToQuizQuestion}
+                >
+                  START QUIZ
+                </SubmitButton>
+              </View>
+            )}
+            <View style={{ margin: 3 }}>
+              <SubmitButton
+                style={{ margin: 1 }}
+                onPress={this.navigateToAddCard}
+              >
+                ADD CARD
+              </SubmitButton>
+            </View>
+            <View style={{ margin: 3 }}>
+              <SubmitButton style={{ margin: 1 }}>DELETE DECK</SubmitButton>
+            </View>
+          </View>
+        </View>
       </View>
     )
   }
 }
-// onPress={() =>
-//   this.props.navigation.navigate('AddQuestion', {
-//     id: deck.id
-//   })
-// }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: white
+    marginTop: 48,
+    flex: 1
   },
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center'
+  headerStyle: {
+    fontSize: 36,
+    textAlign: 'center',
+    fontWeight: '100',
+    marginBottom: 24
   },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 30,
-    marginRight: 30
+  elementsContainer: {
+    marginLeft: 24,
+    marginRight: 24,
+    marginBottom: 24
   }
-})
+}
 
 function mapDispatchToProps(dispatch, { navigation }) {
   const { id } = navigation.state.params

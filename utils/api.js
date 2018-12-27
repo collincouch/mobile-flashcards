@@ -3,7 +3,8 @@ import {
 	_getQuestions,
 	_saveDeck,
 	_saveQuestion,
-	_saveMarkAnswer
+	_saveMarkAnswer,
+	_resetQuiz
 } from './_DATA'
 
 export function getInitialData() {
@@ -27,6 +28,13 @@ export function saveQuestion(info) {
 }
 
 export function saveMarkAnswer(info) {
-	console.log('api:saveMarkAnswer ' + info)
+	//console.log('api:saveMarkAnswer ' + info)
+
 	return _saveMarkAnswer(info)
+}
+
+export function resetQuiz(info) {
+	console.log('api:resetQuiz ' + info)
+
+	return _resetQuiz(info)
 }

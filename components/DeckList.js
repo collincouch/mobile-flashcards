@@ -4,21 +4,49 @@ import {
 	Text,
 	TouchableOpacity,
 	StyleSheet,
-	Platform
+	Platform,
+	ScrollView,
+	FlatList
 } from 'react-native'
 import { handleInitialData } from '../actions/shared'
 import DeckItem from './DeckItem'
+import { AppLoading } from 'expo'
 import { purple, white } from '../utils/colors'
-
 import { connect } from 'react-redux'
 
 class DeckList extends Component {
+	state = {
+		ready: false
+	}
+
 	componentDidMount() {
 		const { dispatch } = this.props
-		this.props.dispatch(handleInitialData())
+		this.props
+			.dispatch(handleInitialData())
+			.then(() => this.setState(() => ({ ready: true })))
+	}
+
+	renderItem = ({ item }) => {
+		return (
+			<TouchableOpacity
+				onPress={() =>
+					this.props.navigation.navigate('DeckDetail', {
+						id: item[1].id
+					})
+				}
+				key={item[1].id}
+			>
+				<DeckItem id={item[1].id} />
+			</TouchableOpacity>
+		)
 	}
 
 	render() {
+		const { ready } = this.state
+		if (ready === false) {
+			return <AppLoading />
+		}
+
 		const { decks } = this.props
 
 		return (
@@ -29,51 +57,17 @@ class DeckList extends Component {
 						<Text style={{ fontSize: 25 }}>Decks</Text>
 					</View>
 					<View style={{ flex: 2 }}>
-						{Object.values(decks).map(d => (
-							<TouchableOpacity
-								onPress={() =>
-									this.props.navigation.navigate(
-										'DeckDetail',
-										{
-											id: d.id
-										}
-									)
-								}
-								key={d.id}
-							>
-								<DeckItem id={d.id} />
-							</TouchableOpacity>
-						))}
+						<FlatList
+							data={Object.entries(decks)}
+							renderItem={this.renderItem}
+							keyExtractor={(item, index) => index.toString()}
+						/>
 					</View>
 				</View>
 			</View>
 		)
 	}
 }
-
-// const styles = StyleSheet.create({
-// 	item: {
-// 		backgroundColor: white,
-// 		borderRadius: Platform.OS === 'ios' ? 16 : 2,
-// 		padding: 20,
-// 		marginLeft: 10,
-// 		marginRight: 10,
-// 		marginTop: 17,
-// 		justifyContent: 'center',
-// 		shadowRadius: 3,
-// 		shadowOpacity: 0.8,
-// 		shadowColor: 'rgba(0, 0, 0, 0.24)',
-// 		shadowOffset: {
-// 			width: 0,
-// 			height: 3
-// 		}
-// 	},
-// 	container: {
-// 		flex: 1,
-// 		padding: 20,
-// 		backgroundColor: white
-// 	}
-// })
 
 const styles = {
 	container: {

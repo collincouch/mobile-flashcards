@@ -3,42 +3,50 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
-  Platform
+  Platform,
+  TextInput
 } from 'react-native'
 import { connect } from 'react-redux'
 import TextButton from './TextButton'
-import { purple, white } from '../utils/colors'
+import { purple, white, red } from '../utils/colors'
 import { handleAddDeck } from '../actions/decks'
 import { NavigationActions } from 'react-navigation'
 import SubmitButton from './SubmitButton'
 
 class AddDeck extends Component {
   state = {
-    deckName: ''
+    deckName: '',
+    deckNameError: ''
   }
   submit = e => {
     e.preventDefault()
-    const { deckName } = this.state
+
+    const { deckName, deckNameError } = this.state
     const { dispatch } = this.props
+    if (deckName.trim() !== '') {
+      //console.log(deckName)
 
-    //console.log(deckName)
+      //dispatch to handleDeck,
+      //which will update local storage and
+      //Redux
 
-    //dispatch to handleDeck,
-    //which will update local storage and
-    //Redux
-    dispatch(handleAddDeck(deckName))
+      dispatch(handleAddDeck(deckName))
 
-    //this.setState(() => ({ deckName: '' }))
-    this.setState({ deckName: '' })
+      //this.setState(() => ({ deckName: '' }))
+      this.setState({ deckName: '' })
 
-    // Navigate to home
-    this.toHome()
+      // Navigate to home
+      this.toHome()
+    } else {
+      this.setState({ deckNameError: 'Deck name is required' })
+    }
   }
 
   handleChangeDeckName = text => {
+    //console.log(text)
     this.setState({ deckName: text })
+    this.setState({ deckNameError: '' })
   }
 
   toHome = () => {
@@ -46,7 +54,7 @@ class AddDeck extends Component {
   }
 
   render() {
-    const { deckName } = this.state
+    const { deckName, deckNameError } = this.state
     return (
       <View style={styles.container}>
         <Text style={styles.headerStyle}>Mobile Flashcards</Text>
@@ -56,6 +64,7 @@ class AddDeck extends Component {
           </View>
           <View style={{ flex: 2 }}>
             <TextInput
+              ref="deckName"
               style={styles.input}
               underlineColorAndroid="transparent"
               placeholder="Deck Name"
@@ -64,40 +73,18 @@ class AddDeck extends Component {
               onChangeText={this.handleChangeDeckName}
               value={deckName}
             />
-            <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ color: red }}>{deckNameError}</Text>
+            </View>
+            <View style={{ marginTop: 10 }}>
+              <SubmitButton onPress={this.submit}>Submit</SubmitButton>
+            </View>
           </View>
         </View>
       </View>
     )
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20,
-//     backgroundColor: white
-//   },
-//   // row: {
-//   //   flexDirection: 'row',
-//   //   flex: 1,
-//   //   alignItems: 'center'
-//   // },
-//   center: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginLeft: 30,
-//     marginRight: 30
-//   },
-//   input: {
-//     margin: 15,
-//     height: 40,
-//     borderColor: '#7a42f4',
-//     borderWidth: 1,
-//     width: 300
-//   }
-// })
 
 const styles = {
   container: {

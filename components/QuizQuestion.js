@@ -93,7 +93,7 @@ class QuizQuestion extends Component {
       )
     }
 
-    const questionNumber = numberOfCorrect + numberOfCorrect + 1
+    const questionNumber = numberOfCorrect + numberOfIncorrect + 1
 
     const quesitonNumberText = `Question ${questionNumber} of ${
       questions.length
@@ -110,7 +110,7 @@ class QuizQuestion extends Component {
               {nextQuestion.question}
             </Text>
             {showAnswer && (
-              <View>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 15, marginTop: 40 }}>Answer</Text>
                 <Text style={{ fontSize: 20, marginTop: 10 }}>
                   {nextQuestion.answer}

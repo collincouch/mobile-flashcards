@@ -94,12 +94,31 @@ export function _getQuestions() {
 export function _saveDeck(deckText) {
   //console.log('_Data:_saveDeck ' + deckText)
   const formattedDeck = formatDeck(deckText)
-  console.log(formattedDeck)
+  //console.log(formattedDeck)
   return mergeItem(FLASHCARD_DECKS_STORAGE_KEY, {
     [formattedDeck.id]: formattedDeck
   }).then(() => {
     return formattedDeck
   })
+}
+
+export function _deleteDeck(deckId) {
+  //console.log('_deleteDeck ' + deckId)
+  return _getDecks()
+    .then(decks => {
+      //console.log(decks)
+
+      //let obj = { ...decks } // make a copy so that the original object is not directly modified.
+      delete decks[deckId]
+
+      storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
+    })
+    .then(() => {
+      return deckId
+    })
+    .catch(e => {
+      console.warn('Error in _deleteDeck: ', e)
+    })
 }
 
 export function _saveQuestion(question) {
@@ -167,8 +186,8 @@ export function _saveMarkAnswer(answer) {
       storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
     })
     .then(() => {
-      console.log('returning answer')
-      console.log(answer)
+      //console.log('returning answer')
+      //console.log(answer)
       return answer
     })
     .catch(e => {
@@ -177,7 +196,7 @@ export function _saveMarkAnswer(answer) {
 }
 
 export function _resetQuiz(deckId) {
-  console.log('sadfasdasd ' + deckId)
+  //console.log('sadfasdasd ' + deckId)
   return _getDecks()
     .then(decks => {
       decks = {
@@ -195,7 +214,7 @@ export function _resetQuiz(deckId) {
       storeItem(FLASHCARD_DECKS_STORAGE_KEY, decks)
     })
     .then(() => {
-      console.log('_resetQuiz' + deckId)
+      //console.log('_resetQuiz' + deckId)
       return deckId
     })
     .catch(e => {

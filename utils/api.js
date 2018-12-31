@@ -4,7 +4,8 @@ import {
 	_saveDeck,
 	_saveQuestion,
 	_saveMarkAnswer,
-	_resetQuiz
+	_resetQuiz,
+	_deleteDeck
 } from './_DATA'
 
 export function getInitialData() {
@@ -22,6 +23,11 @@ export function saveDeck(info) {
 	return _saveDeck(info)
 }
 
+export function deleteDeck(info) {
+	console.log('api:deleteDeck ' + info)
+	return _deleteDeck(info)
+}
+
 export function saveQuestion(info) {
 	//console.log('api:saveQuestion ' + info)
 	return _saveQuestion(info)
@@ -34,7 +40,7 @@ export function saveMarkAnswer(info) {
 }
 
 export function resetQuiz(info) {
-	console.log('api:resetQuiz ' + info)
+	//console.log('api:resetQuiz ' + info)
 
 	return _resetQuiz(info)
 }

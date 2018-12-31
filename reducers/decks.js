@@ -2,7 +2,8 @@ import {
 	RECEIVE_DECKS,
 	ADD_DECK,
 	MARK_ANSWER,
-	RESET_QUIZ
+	RESET_QUIZ,
+	DELETE_DECK
 } from '../actions/decks'
 import { ADD_QUESTION } from '../actions/questions'
 export default function decks(state = {}, action) {
@@ -70,6 +71,11 @@ export default function decks(state = {}, action) {
 					}
 				}
 			}
+		case DELETE_DECK:
+			//console.log('DELETE_DECK: ' + action.deckId)
+			let obj = { ...state }
+			delete obj[action.deckId]
+			return obj
 
 		default:
 			return state

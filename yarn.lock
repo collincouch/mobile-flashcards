@@ -4345,6 +4345,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-actually-usable-prompt@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/react-native-actually-usable-prompt/-/react-native-actually-usable-prompt-0.0.11.tgz#71eede324739b3f3b94ab270d61a2c52363a876c"
+  integrity sha512-UoFXa4pJkv+duzWMpZA758jeR6ph7yiRQ0nBPTDt3Zh470wdAjduLLAtb+aVpIJPcFfbola7ojlFWVJBGRjErw==
+
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"

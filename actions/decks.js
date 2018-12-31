@@ -1,8 +1,9 @@
-import { saveDeck, saveMarkAnswer, resetQuiz } from '../utils/api'
+import { saveDeck, saveMarkAnswer, resetQuiz, deleteDeck } from '../utils/api'
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const ADD_DECK = 'ADD_DECK'
 export const MARK_ANSWER = 'MARK_ANSWER'
 export const RESET_QUIZ = 'RESET_QUIZ'
+export const DELETE_DECK = 'DELETE_DECK'
 
 export function receiveDecks(decks) {
 	return {
@@ -17,6 +18,15 @@ function addDeck(deck) {
 	return {
 		type: ADD_DECK,
 		deck
+	}
+}
+
+function removeDeck(deckId) {
+	//console.log('removeDeck')
+	//console.log(deck)
+	return {
+		type: DELETE_DECK,
+		deckId
 	}
 }
 
@@ -47,6 +57,21 @@ export function handleAddDeck(deckName) {
 				//console.log('begin dispatch')
 				//console.log(deck)
 				dispatch(addDeck(deck))
+			})
+	}
+}
+
+export function handleDeleteDeck(deckId) {
+	console.log('handleDeleteDeck: ' + deckId)
+	return dispatch => {
+		return deleteDeck(deckId)
+			.catch(e => {
+				console.warn('Error in handleAddDeck: ', e)
+			})
+			.then(deckId => {
+				//console.log('begin dispatch')
+				//console.log(deckId)
+				dispatch(removeDeck(deckId))
 			})
 	}
 }

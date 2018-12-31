@@ -24,6 +24,9 @@ class AddDeck extends Component {
 
     const { deckName, deckNameError } = this.state
     const { dispatch } = this.props
+
+    console.log('dispatch is: ')
+    console.log(dispatch)
     if (deckName.trim() !== '') {
       //console.log(deckName)
 
